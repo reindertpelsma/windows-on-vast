@@ -69,6 +69,29 @@ scheduled task is `VastWindowsSetup`; `complete: true` means its setup checks pa
 The baseline is our manually repaired `reinstall` development run, not the older
 nested-QEMU workflow. The two recorded repairs are already in the failed template:
 
+**Recovered baseline evidence, 2026-10-05:** the successful rental remained
+reachable and was inspected without modifying its setup. Its actual Windows
+`bootstrap.ps1`, `native-gpu.ps1` and `cuda-smoke.cs` exactly match the preserved
+development sources by SHA256. This supersedes the earlier uncertainty about
+whether that guest's Windows payload matched the development wrapper. It does
+not turn the manually repaired Linux installation into an unattended template pass.
+
+| Preserved Windows evidence | Result |
+| --- | --- |
+| Bootstrap transcript and task | Windows PowerShell 5.1; original `VastReinstallBootstrap` task, result 0. SSH setup completed in the recorded invocation. |
+| GPU task and state | Original `VastWindowsNativeGpu` task, result 0; one run, zero failures, zero requested reboots, `complete`. |
+| GPU validation saved by that task | NVIDIA 580.88, CUDA compiler 13.0.48, RTX 5090 CUDA kernel smoke result **42**. This is saved baseline evidence, not a new standalone-installer pass. |
+| SetupComplete and access | Network setup precedes bootstrap; original SSH configuration, firewall/task definitions and logs were preserved privately. |
+
+Exact successful-guest source hashes:
+
+- `bootstrap.ps1`: `4ef038dc676403133c79bb764ebe3d953cd8c30524518c5c9e763fe8534d9dcf`
+- `native-gpu.ps1`: `beab25e243b596440fdae7d79bd161ad573835dfcbee8eb5abd5a570cef718fc`
+- `cuda-smoke.cs`: `40ee9d92d331cfa59af1af01d5fcbab7047a225fa9eed95da98a689720e3e72a`
+
+The Windows bootstrap rewrite remains an unvalidated difference. The recovered
+logs do not establish why the later rental failed; no speculative fix was made.
+
 | Check | Finding |
 | --- | --- |
 | Exact ISO image name | [Line 93](install.sh#L93) includes `LTSC 2024 Evaluation`. |
