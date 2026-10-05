@@ -64,6 +64,36 @@ Follow progress with `journalctl -fu vast-reinstall` in original Linux,
 `C:\ProgramData\VastWindows\setup.log` / `state.json` in Windows. The Windows
 scheduled task is `VastWindowsSetup`; `complete: true` means its setup checks passed.
 
+## Bootstrap audit — 2026-10-05
+
+The baseline is our manually repaired `reinstall` development run, not the older
+nested-QEMU workflow. The two recorded repairs are already in the failed template:
+
+| Check | Finding |
+| --- | --- |
+| Exact ISO image name | [Line 93](install.sh#L93) includes `LTSC 2024 Evaluation`. |
+| WIM payload copy | [Line 131](install.sh#L131) uses `cp -r`, retaining the WIM/FUSE repair. The separate `cp -a` copies into the Linux initramfs. |
+| Generated installer hooks | Comparing the preserved repaired wrapper with this script produced byte-identical `reinstall.sh`; `trans.sh` differed by one blank line. Payload preservation and SetupComplete insertion remain present. |
+| Failed template contents | The saved 16,359-byte template matches this 16,360-byte script except for its final newline. No truncation or stale pre-repair template was found. |
+
+The Windows bootstrap was substantially rewritten after the development run:
+native-process helpers, scheduled-task identity/retry settings, and state handling
+changed; GPU setup moved into the same task. That rewrite has not reproduced the
+successful boot unattended. It remains the next comparison to validate, not an
+established explanation of the failure. GPU/compiler version checks also do not
+replace a real CUDA workload.
+
+The failed run saved no Windows setup, task or network logs. Task registration
+occurs [before transcript logging](install.sh#L192), so a registration failure can
+leave no bootstrap transcript. The successful run likewise lacks a complete
+manual-command transcript; an additional unrecorded intervention cannot be ruled
+out. No further omitted manual step or exact failure cause has been established,
+and the evidence does not justify blaming the provider.
+
+This audit changed documentation only. Before another success claim, reproduce
+the repaired baseline from a fresh install and preserve Windows setup and task/SSH
+evidence even if networking fails. No speculative installer fix was published.
+
 ## License
 
 SPDX-License-Identifier: **ISC**. See [LICENSE](LICENSE).
