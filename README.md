@@ -94,6 +94,17 @@ This audit changed documentation only. Before another success claim, reproduce
 the repaired baseline from a fresh install and preserve Windows setup and task/SSH
 evidence even if networking fails. No speculative installer fix was published.
 
+A targeted static review of the rewrite found no unconditional failure in the
+current fixed native arguments or task action. Both versions register and start a
+SYSTEM task; the generated network hook still precedes it. The rewrite adds a
+[state save before SSH](install.sh#L208): a write/rename failure there prevents SSH
+setup. Its [error handler saves again before printing the original error](install.sh#L295),
+so a second persistence failure can hide the first diagnostic. These are reachable
+failure paths, not evidence that they occurred on the failed rental. Registration
+and initial state loading also precede the main error handler. The isolated helper
+checks pass in Linux PowerShell 7.4.6; that does not validate Windows PowerShell 5.1,
+Task Scheduler, ACLs, networking or the complete unattended sequence.
+
 ## License
 
 SPDX-License-Identifier: **ISC**. See [LICENSE](LICENSE).
