@@ -6,9 +6,9 @@ and the CUDA toolkit. Windows runs directly in the rented VM with its assigned G
 
 **Experimental — no unattended end-to-end pass yet (2026-10-05).** The successful
 development boot using `reinstall` required manual repairs. A later fresh-template
-attempt became unreachable after Windows Boot Manager; its boot failure remains
-undiagnosed. The earlier, separate `vast-windows` implementation passed Windows,
-SSH and CUDA tests, but that does not validate this replacement.
+attempt became unreachable after Windows Boot Manager. Treat the automation as
+broken until it reproduces the repaired `reinstall` run without intervention;
+the first investigation is which manual step the script omits or performs differently.
 
 **[Open the Windows template on Vast.ai](https://cloud.vast.ai/?ref_id=527355&creator_id=527355&name=Windows%2011%20VM)**
 
