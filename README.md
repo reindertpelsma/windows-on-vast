@@ -4,13 +4,6 @@
 Turn a fresh Vast.ai KVM rental into Windows with public-key SSH, NVIDIA drivers
 and the CUDA toolkit. Windows runs directly in the rented VM with its assigned GPU.
 
-**Validated end to end (2026-10-08)** on a fresh RTX 4090 rental: unattended
-install, three Windows boots, public-key SSH, NVIDIA 580.88 and CUDA 13.0.48,
-`complete: true`. The earlier failure, Windows running without SSH, was an
-`msiexec` hang caused by the bootstrap quoting every argument (including `/i`,
-`/qn`); fixed by quoting only arguments that contain whitespace. A failed setup is
-still not retried until the next boot, and a real CUDA workload has not been tested.
-
 **[Open the Windows template on Vast.ai](https://cloud.vast.ai/?ref_id=527355&creator_id=527355&name=Windows%2011%20KVM%20on%20Vast.ai)**
 
 ## Use the template
@@ -65,6 +58,15 @@ Follow progress with `journalctl -fu vast-reinstall` in original Linux,
 `/reinstall.log` in the intermediate installer, and
 `C:\ProgramData\VastWindows\setup.log` / `state.json` in Windows. The Windows
 scheduled task is `VastWindowsSetup`; `complete: true` means its setup checks passed.
+
+## Verification
+
+**Validated end to end (2026-10-08)** on a fresh RTX 4090 rental: unattended
+install, three Windows boots, public-key SSH, NVIDIA 580.88 and CUDA 13.0.48,
+`complete: true`. The earlier failure, Windows running without SSH, was an
+`msiexec` hang caused by the bootstrap quoting every argument (including `/i`,
+`/qn`); fixed by quoting only arguments that contain whitespace. A failed setup is
+still not retried until the next boot, and a real CUDA workload has not been tested.
 
 ## License
 
