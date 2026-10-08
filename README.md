@@ -4,7 +4,7 @@
 Turn a fresh Vast.ai KVM rental into Windows with public-key SSH, NVIDIA drivers
 and the CUDA toolkit. Windows runs directly in the rented VM with its assigned GPU.
 
-**[Open the Windows template on Vast.ai](https://cloud.vast.ai/?ref_id=527355&creator_id=527355&name=Windows%2011%20VM)**
+**[Open the Windows template on Vast.ai](https://cloud.vast.ai/?ref_id=527355&creator_id=527355&name=Windows%20on%20Vast.ai%20-%20Windows%2011%20VM)**
 
 ## Use the template
 
