@@ -4,6 +4,13 @@
 Turn a fresh Vast.ai KVM rental into Windows with public-key SSH, NVIDIA drivers
 and the CUDA toolkit. Windows runs directly in the rented VM with its assigned GPU.
 
+**Validated end to end (2026-10-08)** on a fresh RTX 4090 rental: unattended
+install, three Windows boots, public-key SSH, NVIDIA 580.88 and CUDA 13.0.48,
+`complete: true`. The earlier failure, Windows running without SSH, was an
+`msiexec` hang caused by the bootstrap quoting every argument (including `/i`,
+`/qn`); fixed by quoting only arguments that contain whitespace. A failed setup is
+still not retried until the next boot, and a real CUDA workload has not been tested.
+
 **[Open the Windows template on Vast.ai](https://cloud.vast.ai/?ref_id=527355&creator_id=527355&name=Windows%20on%20Vast.ai%20-%20Windows%2011%20VM)**
 
 ## Use the template
@@ -31,7 +38,7 @@ before the NVIDIA/CUDA installation finishes.
 The driver targets supported Turing-and-newer GeForce cards. Datacenter GPUs may
 need a different driver. A purchased Windows license is not included.
 
-Offline checks have passed. Its automatic
+Its automatic
 checks cover device health and driver/compiler versions; a real CUDA workload
 must be tested separately.
 
