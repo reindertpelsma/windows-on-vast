@@ -64,7 +64,7 @@ runs directly in the rented KVM VM (150 GB disk) with its assigned GPU.
   failed and will not run again until the next reboot. Report the error and the
   `setup.log` tail.
 - **Status:** the unattended install, SSH, driver and CUDA setup were validated end
-  to end on 2026-10-08 on a fresh RTX 4090 rental. A real CUDA workload has not
+  to end on 2026-10-08 on a fresh RTX 4090, RTX PRO 5000 and RTX 5090 rental. A real CUDA workload has not
   been tested.
 - **Where to look:** `journalctl -fu vast-reinstall` in the original Linux,
   `/reinstall.log` in the intermediate installer, and the files above in Windows.
