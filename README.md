@@ -16,9 +16,10 @@ still not retried until the next boot, and a real CUDA workload has not been tes
 ## Use the template
 
 1. Add your SSH public key to your Vast account before renting.
-2. Choose a fresh x86-64 KVM rental. Request **150 GB disk**.
+2. Choose a fresh x86-64 KVM rental. Request **150 GB disk**. This is intended
+   only for a brand-new rental whose disk has no valuable data.
 3. Let installation and its automatic reboots finish. **The entire Linux boot
-   disk, including all partitions, is erased.**
+   disk, including all partitions, is erased without confirmation or recovery.**
 4. Connect using your key, the original public IP/mapped SSH port, and user `vast`:
 
 ```sh

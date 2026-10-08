@@ -12,7 +12,10 @@ boots, public-key SSH, NVIDIA GeForce 580.88 (`nvidia-smi` lists the GPU) and CU
 left Windows running without SSH (an OpenSSH installer hang caused by argument
 quoting) is fixed. A real CUDA workload has not been tested.
 
-**Installation erases the entire Linux boot disk. Use a fresh rental.**
+**Installation erases the entire Linux boot disk, with no confirmation and no
+recovery.** This template is only for a brand-new rental whose disk holds nothing
+of value. Do not use it on an instance that has your data, models or work on it;
+back that up elsewhere first, or rent a separate fresh instance.
 
 Before renting, add your SSH public key to your Vast account. Choose an x86-64
 KVM offer with **150 GB disk**. Automatic driver setup targets supported
