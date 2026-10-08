@@ -1,7 +1,6 @@
 #!/bin/bash
 # SPDX-License-Identifier: ISC
 # License: https://github.com/reindertpelsma/windows-on-vast/blob/main/LICENSE
-# WARNING: ERASES THE RENTAL BOOT DISK. Fresh-template test pending.
 set -Eeuo pipefail
 export PATH=/usr/sbin:/usr/bin:/sbin:/bin
 umask 077
@@ -18,6 +17,7 @@ else
   flock -n 9 || exit 0
   [[ ! -e "$work/started" ]] || exit 0
   systemctl is-active --quiet vast-reinstall.service && exit 0
+  printf '\n*** DO NOT USE: this disk is being ERASED for Windows.\n*** Install nothing. If stuck, destroy it and rent again.\n\n' >/etc/motd
 fi
 mkdir -p "$work/payload"
 chmod 700 "$work" "$work/payload"
@@ -33,7 +33,6 @@ flock -n 8 || exit 0
 [[ ! -e started ]] || exit 0
 trap 'echo "FAILED line $LINENO; see journalctl -u vast-reinstall" >&2' ERR
 [[ $EUID == 0 ]]
-echo 'Waiting up to five minutes for Vast SSH keys.'
 ready=false
 for ((i=0; i<150; i++)); do
   if [[ -s /root/.ssh/authorized_keys ]] && ssh-keygen -lf /root/.ssh/authorized_keys >/dev/null 2>&1 &&
@@ -75,7 +74,7 @@ disk=/dev/$(lsblk -nro PKNAME "$root_part")
 [[ -b $disk && $(lsblk -dnro TYPE "$disk") == disk ]]
 [[ $(blockdev --getsize64 "$disk") -ge 100000000000 ]]
 [[ $(df -B1 --output=avail / | tail -1) -ge 2147483648 ]]
-echo "Erasing $disk for Windows."
+echo "Erasing $disk."
 upstream=80c3d5e175f39c2d2bbd267cd583842140154140
 git init upstream
 git -C upstream fetch --depth=1 https://github.com/bin456789/reinstall.git "$upstream"
@@ -95,7 +94,7 @@ bash reinstall.sh windows --image-name 'Windows 11 Enterprise LTSC 2024 Evaluati
   --username vast --ssh-key "$PWD/payload/authorized_keys" --ssh-port "$port" --target-disk "$disk" </dev/null
 touch armed
 sync
-echo 'Rebooting into reinstall/WinPE.'
+echo Rebooting.
 systemctl reboot
 WORKER
 cat >"$work/patch.py" <<'PATCHER'
