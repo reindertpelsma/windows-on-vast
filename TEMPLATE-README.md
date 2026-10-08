@@ -43,15 +43,23 @@ ssh -p PUBLIC_SSH_PORT vast@PUBLIC_IP
 Save the Windows SSH host key printed before reboot and verify it when connecting.
 Windows uses public-key authentication only. Password SSH and RDP are disabled.
 
-**SSH may be ready before the GPU software.** In Windows, check progress with:
+**SSH is ready before the GPU software. Do not use the GPU yet.** After SSH works,
+Windows still downloads and installs the NVIDIA driver and then CUDA, which takes
+several more minutes and may reboot once or twice (SSH drops briefly each time;
+reconnect). `nvidia-smi` and `nvcc` do not exist until those stages finish. Wait
+until `state.json` shows `"complete": true` and the log ends with `SETUP_COMPLETE`:
 
 ```powershell
 Get-Content C:\ProgramData\VastWindows\state.json
 Get-Content C:\ProgramData\VastWindows\setup.log -Tail 30
 ```
 
-After setup completes, open a new SSH session and run `nvidia-smi` and `nvcc --version`. Setup checks GPU health and driver/compiler versions; test your CUDA
-workload separately.
+If `error` in `state.json` is not empty, setup failed and is not retried until the
+next reboot; send that error and the log tail when asking for help.
+
+Once `complete` is true, open a new SSH session and run `nvidia-smi` and
+`nvcc --version`. Setup checks GPU health and driver/compiler versions; test your
+CUDA workload separately.
 
 [Source and instructions](https://github.com/reindertpelsma/windows-on-vast)
 · SPDX-License-Identifier: **ISC**
