@@ -11,7 +11,7 @@ install, three Windows boots, public-key SSH, NVIDIA 580.88 and CUDA 13.0.48,
 `/qn`); fixed by quoting only arguments that contain whitespace. A failed setup is
 still not retried until the next boot, and a real CUDA workload has not been tested.
 
-**[Open the Windows template on Vast.ai](https://cloud.vast.ai/?ref_id=527355&creator_id=527355&name=Windows%20on%20Vast.ai%20-%20Windows%2011%20VM)**
+**[Open the Windows template on Vast.ai](https://cloud.vast.ai/?ref_id=527355&creator_id=527355&name=Windows%2011%20KVM%20on%20Vast.ai)**
 
 ## Use the template
 
