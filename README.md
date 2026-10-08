@@ -4,11 +4,16 @@
 Turn a fresh Vast.ai KVM rental into Windows with public-key SSH, NVIDIA drivers
 and the CUDA toolkit. Windows runs directly in the rented VM with its assigned GPU.
 
-**Experimental — no unattended end-to-end pass yet (2026-10-05).** The successful
-development boot using `reinstall` required manual repairs. A later fresh-template
-attempt became unreachable after Windows Boot Manager. Treat the automation as
-broken until it reproduces the repaired `reinstall` run without intervention;
-the first investigation is which manual step the script omits or performs differently.
+**Experimental — no unattended end-to-end pass yet (2026-10-08).** Cause of the
+"Windows boots but SSH never answers" failure found by reproducing it in a nested
+KVM guest: the bootstrap's `Run` helper put quotes around every argument, so
+`msiexec` received `"/i" "…msi" "/qn"`, did not parse it as switches, and hung
+(no MSI log was ever created) until the 600 s timeout. Setup then failed once and
+never retried, leaving Windows up without sshd. Fixed by quoting only arguments
+that contain whitespace; after that, sshd installed, key login worked and the
+NVIDIA download began. The NVIDIA driver/CUDA stages could not be tested
+(no GPU in the reproduction), and no full run from the fixed script has finished.
+A failed setup is still not retried until the next boot.
 
 **[Open the Windows template on Vast.ai](https://cloud.vast.ai/?ref_id=527355&creator_id=527355&name=Windows%2011%20VM)**
 

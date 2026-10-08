@@ -148,7 +148,7 @@ Set-Location $root
 function Run($file, [string[]]$arguments, $success = @(0), $seconds = 3600) {
   $p = New-Object Diagnostics.Process
   $p.StartInfo.FileName = $file
-  $p.StartInfo.Arguments = ($arguments | ForEach-Object { '"' + $_ + '"' }) -join ' '
+  $p.StartInfo.Arguments = ($arguments | ForEach-Object { $_ -replace '^(.*\s.*)$','"$1"' }) -join ' '
   $p.StartInfo.UseShellExecute = $false
   try {
     if (!$p.Start()) { throw "Cannot start $file" }

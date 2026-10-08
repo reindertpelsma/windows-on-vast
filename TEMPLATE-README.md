@@ -6,8 +6,9 @@ Automatically replace a fresh Linux KVM rental with **Windows 11 Enterprise LTSC
 Windows runs directly in the rented VM with its assigned GPU.
 
 **Experimental: unattended installation has not passed end-to-end testing.**
-The successful development boot needed manual repairs. A subsequent fresh-template
-attempt became unreachable after Windows Boot Manager; the cause is unresolved.
+A bug that left Windows running without SSH (an OpenSSH installer hang caused by
+argument quoting) was fixed on 2026-10-08; GPU driver/CUDA setup remains untested
+after that fix.
 
 **Installation erases the entire Linux boot disk. Use a fresh rental.**
 
